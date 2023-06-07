@@ -54,7 +54,7 @@ const Login = () => {
       await new Promise((resolve) => setTimeout(resolve, 2000));
       setLoading(false);
 
-      location.assign("/");
+      navigate("/");
     } catch (err) {
       if (!err?.response) {
         return toast.error("No server response.");
