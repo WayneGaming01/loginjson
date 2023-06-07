@@ -16,12 +16,6 @@ const UserSchema = mongoose.Schema(
     password: {
       type: String,
     },
-    lastIPLogin: {
-      type: String
-    },
-    verifiedLogin: {
-      type: Boolean
-    },
     createdAt: {
       type: String,
       default: moment().format("MMMM Do YYYY, h:mm:ss a"),
@@ -43,7 +37,6 @@ UserSchema.statics.login = async function (username, password) {
       return user;
     }
   }
-  throw Error("The username or password does not match in our system!");
 };
 
 const User = mongoose.model("user", UserSchema);
