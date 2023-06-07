@@ -5,7 +5,7 @@
     "MAIL_USER": "",
     "MAIL_PASSWORD": ""
   },
-  "SITE_NAME": "Site",
+  "SITE_NAME": "",
   "SUPPORT_EMAIL": "",
   "MONGODB_CLUSTER": "",
   "SERVER_URL": "http://localhost",
