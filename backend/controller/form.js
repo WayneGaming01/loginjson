@@ -20,12 +20,6 @@ const handleErrors = (err) => {
     errors = "The user info does not match!";
   }
 
-  if (
-    err.message === "You're banned from this server and we cannot log you in!"
-  ) {
-    errors = "You're banned from this server and we cannot log you in!";
-  }
-
   if (err.message === "Please enter a correct email.") {
     errors = "Please enter a correct email.";
   }
