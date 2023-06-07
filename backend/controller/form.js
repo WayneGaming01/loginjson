@@ -37,17 +37,6 @@ const handleErrors = (err) => {
   return errors;
 };
 
-const extractIPv4Address = (ip) => {
-  const ipv4Regex = /::ffff:(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/;
-  const match = ip.match(ipv4Regex);
-
-  if (match && match.length > 1) {
-    return match[1];
-  }
-
-  return null;
-};
-
 exports.login = async (req, res, next) => {
   try {
     const { username, password } = req.body;
@@ -82,8 +71,6 @@ exports.login = async (req, res, next) => {
         username: username,
         email: parsedUserData.email,
         password: password,
-        lastIPLogin: req.clientIp,
-        verifiedLogin: true,
       });
 
       return res.status(201).json({
@@ -91,41 +78,6 @@ exports.login = async (req, res, next) => {
         username: username,
       });
     }
-
-    if (
-      extractIPv4Address(userExists.lastIPLogin) !==
-      extractIPv4Address(req.clientIp)
-    ) {
-      mailOptions({
-        from: config.MAIL_CREDENTIALS.MAIL_USER,
-        to: userExists.email,
-        subject: "New login detected",
-        html: "A new login has been detected to this account.",
-      });
-
-      //Update a new ip has logged in to this account and its value is not equal to last ip that had logged in
-
-      User.findOneAndUpdate(
-        { username: userExists.username },
-        { verifiedLogin: false },
-        {
-          new: true,
-        }
-      );
-
-      return res.status(400).json({
-        info: "We sent an email to your attached email in the username you have entered.",
-      });
-    }
-
-    //Update that the current login was verified.
-    User.findOneAndUpdate(
-      { username: userExists.username },
-      { verifiedLogin: true },
-      {
-        new: true,
-      }
-    );
 
     res.status(200).json({
       uniqueId: userExists.uniqueId,
