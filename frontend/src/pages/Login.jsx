@@ -64,14 +64,6 @@ const Login = () => {
         return toast.error(err.response?.data?.errors);
       }
 
-      if (err.response?.data?.info) {
-        return toast(err.response?.data?.info, {
-          icon: (
-            <FontAwesomeIcon icon={faInfoCircle} style={{ color: "#858080" }} />
-          ),
-        });
-      }
-
       err.response?.status === 401
         ? toast.error("Unathorized.")
         : toast.error(err.response?.data?.errors);
